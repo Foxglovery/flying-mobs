@@ -21,22 +21,24 @@ class Enemy {
     this.height = this.spriteHeight / 2.5;
     this.x = Math.random() * (canvas.width - this.width);
     this.y = Math.random() * (canvas.height - this.height);
+    this.newX = Math.random() * (canvas.width - this.width);
+    this.newY = Math.random() * (canvas.height - this.height);
     this.frame = 0;
     this.flapSpeed = Math.floor(Math.random() * 6 + 3);
     this.speed = Math.random() * 4 + 1;
-    this.angle = Math.random() * 500;
-    this.angleSpeed = Math.random() * 1 + 0.5;
-    this.sinDepth = Math.random() * 200 + 50;
+    this.interval = Math.floor(Math.random() * 200 + 50);
   }
   update() {
-    this.x =
-      (canvas.width / 2) * Math.cos((this.angle * Math.PI) / 200) +
-      (canvas.width / 2 - this.width / 2);
-    this.y =
-      (canvas.height / 2) * Math.sin((this.angle * Math.PI) / 300) +
-      (canvas.height / 2 - this.height / 2);
-    // this.y += this.sinDepth * Math.sin(this.angle);
-    this.angle += this.angleSpeed;
+    if (gameFrame % this.interval === 0) {
+      this.newX = Math.random() * (canvas.width - this.width);
+      this.newY = Math.random() * (canvas.height - this.height);
+    }
+    let dx = this.x - this.newX;
+    let dy = this.y - this.newY;
+    this.x -= dx / 60;
+    this.y -= dy / 60;
+    // this.x = 0;
+    // this.y = 0;
     if (this.x + this.width < 0) this.x = canvas.width;
     // this.y += Math.random() * 5 - 2.5;
     //animate sprite sheet
